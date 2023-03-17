@@ -16,15 +16,9 @@ public class ProgrammaEventi {
         this.eventi = new ArrayList<>();
     }
 
-    public void aggiungiEvento(String titolo, LocalDate data, int postiTotali){
-        Evento tempEvent =null;
-        try{
-            tempEvent = new Evento(titolo, data, postiTotali);
-        }catch (ParseException e){
-            e.getMessage();
-        }
-        if (tempEvent != null) {
-            eventi.add(tempEvent);
+    public void aggiungiEvento(Evento event){
+        if (event != null) {
+            eventi.add(event);
         }
     }
     public List<Evento> listaEventiPerData(LocalDate data){

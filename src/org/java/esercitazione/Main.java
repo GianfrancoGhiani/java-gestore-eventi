@@ -6,6 +6,8 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -154,11 +156,15 @@ public class Main {
         Random rand =new Random();
         ProgrammaEventi progr = new ProgrammaEventi("test1");
         int counter = 0;
+        List<Evento> events = new ArrayList<>();
 
         try{
             for (int i = 0; i < 6; i++) {
-                progr.aggiungiEvento("evento num." + i, LocalDate.now().plusDays(rand.nextInt(1, 4)), 25);
+                events.add(new Evento("evento num." + i, LocalDate.now().plusDays(rand.nextInt(1, 4)), 25));
                 counter++;
+            }
+            for (Evento ev : events) {
+                progr.aggiungiEvento(ev);
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -175,9 +181,6 @@ public class Main {
             }
 
         }
-
-
-
     }
     public static boolean canBeIntParsed(String n){
         try {
