@@ -41,7 +41,7 @@ public class Evento {
             throw new IllegalArgumentException("The location must have at least one sit");
         }
         if (data.isBefore(LocalDate.now())){
-            throw new DateTimeException("The event must be after today");
+            throw new DateTimeException("The event must be today or later");
         }
         this.titolo = titolo;
         this.data = data;
