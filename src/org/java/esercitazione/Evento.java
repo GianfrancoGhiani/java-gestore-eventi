@@ -89,6 +89,6 @@ public class Evento {
     public String toString() {
         return
                 "Evento:" + data +
-                "- '" + titolo + '\'';
+                " - '" + titolo + '\'';
     }
 }

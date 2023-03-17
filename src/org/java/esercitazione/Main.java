@@ -6,6 +6,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -84,7 +85,7 @@ public class Main {
             //date parsing
             data = LocalDate.parse(completeDate, formatter);
 
-            //event = new Evento(eventTitle, data, sitsNum);
+//          event = new Evento(eventTitle, data, sitsNum);
 
             //time parsing
             time = LocalTime.parse(completeTime, timeFormatter);
@@ -144,6 +145,39 @@ public class Main {
             }
         }
         input.close();
+
+
+        //BONUS
+
+
+        //import
+        Random rand =new Random();
+        ProgrammaEventi progr = new ProgrammaEventi("test1");
+        int counter = 0;
+
+        try{
+            for (int i = 0; i < 6; i++) {
+                progr.aggiungiEvento("evento num." + i, LocalDate.now().plusDays(rand.nextInt(1, 4)), 25);
+                counter++;
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+
+        } finally{
+            if(counter != 0){
+                LocalDate randomData = LocalDate.now().plusDays(rand.nextInt(1, 4));
+                System.out.println("Lista di eventi in data "+randomData);
+                System.out.println(progr.listaEventiPerData(randomData));
+                System.out.println(progr.contatoreEventi());
+                System.out.println(progr.ordinaPerData());
+                progr.svuotaEventi();
+                System.out.println(progr);
+            }
+
+        }
+
+
+
     }
     public static boolean canBeIntParsed(String n){
         try {
