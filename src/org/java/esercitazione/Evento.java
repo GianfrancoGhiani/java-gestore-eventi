@@ -3,8 +3,9 @@ package org.java.esercitazione;
 import java.text.ParseException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.Comparator;
 
-public class Evento {
+public class Evento implements Comparable<Evento> {
     //variables
     private String titolo;
     private LocalDate data;
@@ -90,5 +91,10 @@ public class Evento {
         return
                 "Evento:" + data +
                 " - '" + titolo + '\'';
+    }
+
+    @Override
+    public int compareTo(Evento e) {
+        return getData().compareTo(e.getData());
     }
 }

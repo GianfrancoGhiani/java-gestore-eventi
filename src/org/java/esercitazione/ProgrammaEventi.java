@@ -39,15 +39,17 @@ public class ProgrammaEventi {
     public String ordinaPerData(){
         List<Evento> tempList = new ArrayList<>();
         tempList.addAll(eventi);
-        Collections.sort(tempList, new Comparator<Evento>() {
-            @Override
-            public int compare(Evento o1, Evento o2) {
-                if(o1.getData() == null || o2.getData() == null){
-                    return 0;
-                }
-                return o1.getData().compareTo(o2.getData());
-            }
-        });
+
+//        Collections.sort(tempList, new Comparator<Evento>() {
+//            @Override
+//            public int compare(Evento o1, Evento o2) {
+//                if(o1.getData() == null || o2.getData() == null){
+//                    return 0;
+//                }
+//                return o1.getData().compareTo(o2.getData());
+//            }
+//        });
+        Collections.sort(tempList);
         String eventsString = "";
         for (Evento event : tempList) {
             eventsString += event.toString();
