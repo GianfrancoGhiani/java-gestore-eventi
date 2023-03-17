@@ -5,28 +5,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 
 public class Evento {
-//    La consegna è di creare una classe Evento che abbia le seguenti proprietà:
-//      ● titolo
-//      ● data
-//      ● numero di posti in totale (capienza della location)
-//      ● numero di posti prenotati
-//    Quando si istanzia un nuovo evento questi attributi devono essere tutti valorizzati nel
-//    costruttore, tranne posti prenotati che va inizializzato a 0.
-//    Inserire il controllo che la data non sia già passata e che il numero di posti totali sia positivo.
-//    In caso contrario sollevare opportune eccezioni.
-//    Aggiungere metodi getter e setter in modo che:
-//        ● titolo sia in lettura e in scrittura
-//        ● data sia in lettura e scrittura
-//        ● numero di posti totale sia solo in lettura
-//        ● numero di posti prenotati sia solo in lettura
-//    Vanno inoltre implementati dei metodi public che svolgono le seguenti funzioni:
-//        1. prenota: aggiunge uno ai posti prenotati. Se l’evento è già passato o non ha posti
-//              disponibili deve sollevare un’eccezione.
-//        2. disdici: riduce di uno i posti prenotati. Se l’evento è già passato o non ci sono
-//              prenotazioni deve sollevare un’eccezione.
-//        3. l’override del metodo toString() in modo che venga restituita una stringa
-//              contenente: data formattata - titolo
-//    Aggiungere eventuali metodi (public e private) che vi aiutino a svolgere le funzioni richieste.
+    //variables
     private String titolo;
     private LocalDate data;
     private int postiTotali;
@@ -81,6 +60,8 @@ public class Evento {
     }
 
     //methods
+    //throws a FullFilledSitException if the booked sits are equals to the total sits or a DateTimeException if the event was before today
+
     public void prenota() throws FullFilledSitException, DateTimeException {
         if (data.isBefore(LocalDate.now())){
             throw new DateTimeException("The event must be after today");
@@ -91,6 +72,7 @@ public class Evento {
             postiPrenotati++;
         }
     }
+    //throws a NotBookedSitException if the booked sits are equals to 0 or a DateTimeException if the event was before today
     public void disdici() throws NotBookedSitException, DateTimeException {
         if (data.isBefore(LocalDate.now())){
             throw new DateTimeException("The event must be after today");
@@ -102,6 +84,7 @@ public class Evento {
         }
     }
 
+    //override
     @Override
     public String toString() {
         return

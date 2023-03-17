@@ -1,8 +1,10 @@
 package org.java.esercitazione;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -13,42 +15,91 @@ public class Main {
 
         System.out.println("Welcome, please insert an event name");
         String eventTitle = input.nextLine();
-        int sitsNum = 0;
+        String tempSitsNum = null;
+//      for every value that represents an int num, always if i use it as a string,
+//      i want to control that it is really a int num
         do{
             System.out.println("How many sits your location has?");
-             sitsNum= Integer.parseInt(input.nextLine());
-        } while (sitsNum < 1);
+             tempSitsNum= input.nextLine();
+        } while (!canBeIntParsed(tempSitsNum) || (Integer.parseInt(tempSitsNum) < 1));
+//      parsing the number of total sits to int
+        int sitsNum = Integer.parseInt(tempSitsNum);
+
         System.out.println("When does this event be? ");
+//      i'll control every single value, such as year, month and day values before creating
+//      the completeDate string to parse into LocalDate
         String year = null;
         do {
             System.out.println("please insert the year with this type of format('yyyy')");
              year= input.nextLine();
-        } while (year.length()<4);
+        } while ((year.length() != 4) || !canBeIntParsed(year));
         String month = null;
         do {
             System.out.println("please insert the month with this type of format('mm')");
              month= input.nextLine();
-        } while (month.length()<2 && !(Integer.parseInt(month)<12) && !(Integer.parseInt(month)>0));
+        } while (!canBeIntParsed(month) || (month.length()<2) || (!(Integer.parseInt(month)<13)) || (!(Integer.parseInt(month)>0)));
         String day = null;
+
+//      changing max_date value based on month
+        int max_date= 32;
+        if(month.equals("04") ||month.equals("06") ||month.equals("09") ||month.equals("11")){
+            max_date = 31;
+        }else if(month.equals("02")) {
+            max_date = 29;
+        }
         do {
             System.out.println("please insert the day with this type of format('dd')");
             day= input.nextLine();
-        } while (day.length()<2 && !(Integer.parseInt(day)<32) && !(Integer.parseInt(day)>0));
+        } while (!canBeIntParsed(day) || (day.length()<2 || !(Integer.parseInt(day)<max_date) || !(Integer.parseInt(day)>0)));
+
         String completeDate = year + "-"+ month+"-"+day;
 
+        //Preparing String to LocalTime conversion
+        System.out.println("At what time is it?");
+        String hour = null;
+        int hourInt = 0;
+        do {
+            System.out.println("please specify the hour here (0/23)");
+            hour = input.nextLine();
+        }while (Integer.parseInt(hour) <0 || Integer.parseInt(hour) >23);
+        String min = null;
+        do {
+            System.out.println("please specify the min here (0/59)");
+            min = input.nextLine();
+        }while (Integer.parseInt(min) <0 || Integer.parseInt(min) > 59);
+        String completeTime = hour+":"+min;
+
+        System.out.println("How much does the ticket cost?");
+        String ticketPrice = input.nextLine();
+
+        // formatters and date/time initialization
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalDate data = null;
+        LocalTime time = null;
+
+        //initializing event
         Evento event = null;
         try{
+            //date parsing
             data = LocalDate.parse(completeDate, formatter);
-            event = new Evento(eventTitle, data, sitsNum);
+
+            //event = new Evento(eventTitle, data, sitsNum);
+
+            //time parsing
+            time = LocalTime.parse(completeTime, timeFormatter);
+            event = new Concerto(eventTitle, data, sitsNum, time , new BigDecimal(ticketPrice));
+
+
+
+
         }catch (DateTimeException e){
             System.out.println(e.getMessage());
         }catch (Exception e){
             e.printStackTrace();
         }finally {
             if (event != null){
-                System.out.println(event.toString());
+                System.out.println(event);
                 System.out.println("do you want to book any sit? y/n");
                 String book = input.nextLine();
                 if (Character.toLowerCase(book.charAt(0))=='y'){
@@ -92,7 +143,16 @@ public class Main {
 
             }
         }
-
         input.close();
+    }
+    public static boolean canBeIntParsed(String n){
+        try {
+            Integer.parseInt(n);
+            return true;
+        }catch (IllegalArgumentException e){
+            System.out.println("You must insert an int");
+            return false;
+        }
+
     }
 }
